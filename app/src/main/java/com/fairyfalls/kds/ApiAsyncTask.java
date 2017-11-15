@@ -39,9 +39,9 @@ public class ApiAsyncTask extends AsyncTask<Void, Void, Void> {
         }
         return null;
     }
-    private List<String> getDataFromApi() throws IOException {
+    private ArrayList<ArrayList<String>> getDataFromApi() throws IOException {
         DateTime now = new DateTime(System.currentTimeMillis());
-        ArrayList<String> eventsStrings = new ArrayList<String>();
+        ArrayList<ArrayList<String>> eventsStrings = new ArrayList<ArrayList<String>>();
         Events events = mActivity.mService.events().list("79dd094ipmpco64t25vmikg4f4@group.calendar.google.com")
                 .setMaxResults(50)
                 .setTimeMin(now)
@@ -58,9 +58,14 @@ public class ApiAsyncTask extends AsyncTask<Void, Void, Void> {
             if (end == null) {
                 end = event.getEnd().getDateTime();
             }
-            eventsStrings.add(
-                    String.format("%s", event.getSummary())
-            );
+            ArrayList<String> data = new ArrayList<String>();
+            data.add(event.getSummary());
+            data.add(start.toString());
+            data.add(end.toString());
+            eventsStrings.add(data);
+            //eventsStrings.add(new ArrayList<String>(){event.getSummary(), start, end});
+//                    String.format("%s", event.getSummary())
+            //);
         }
         return eventsStrings;
     }

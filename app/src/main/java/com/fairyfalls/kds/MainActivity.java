@@ -38,6 +38,7 @@ import com.google.api.services.calendar.CalendarScopes;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.api.services.calendar.Calendar;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void updateResultsText(final List<String> dataStrings) {
+    public void updateResultsText(final ArrayList<ArrayList<String>> dataStrings) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -158,7 +159,13 @@ public class MainActivity extends AppCompatActivity {
                     mTextView.setText("No data found.");
                 } else {
                     //mTextView.setText(TextUtils.join("\n", dataStrings));
-                    CustomAdapter customAdapter = new CustomAdapter(MainActivity.this, dataStrings, dataStrings);
+                    ArrayList<String> names = new ArrayList<String>();
+                    ArrayList<String> dates = new ArrayList<String>();
+                    for (ArrayList<String> event: dataStrings) {
+                        names.add(event.get(0));
+                        dates.add(event.get(1)+" - "+event.get(2));
+                    }
+                    CustomAdapter customAdapter = new CustomAdapter(MainActivity.this, names, dates);
                     mRecyclerView.setAdapter(customAdapter);
                 }
             }
