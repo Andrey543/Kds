@@ -9,28 +9,30 @@
         tools:context="com.fairyfalls.kds.MainActivity">
 
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="271dp"
-        android:text="TextView" />
-
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    
+        android:layout_height="442dp">
+
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="?android:attr/windowBackground"
-        app:menu="@menu/navigation" />
+        app:menu="@menu/navigation">
 
-        <ListView
-            android:id="@+id/listView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </FrameLayout>
-  </LinearLayout>
+    </android.support.design.widget.BottomNavigationView>
+</LinearLayout>

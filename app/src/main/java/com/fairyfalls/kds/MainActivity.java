@@ -13,9 +13,12 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Adapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.net.NetworkInfo;
@@ -40,9 +43,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public ListView mListView;
+    public RecyclerView mRecyclerView;
     public TextView mTextView;
     Calendar mService;
+    public List<String> dates;
 
     final HttpTransport transport = AndroidHttp.newCompatibleTransport();
     final JsonFactory jsonFactory = JacksonFactory.getDefaultInstance();
@@ -153,7 +157,9 @@ public class MainActivity extends AppCompatActivity {
                 } else if (dataStrings.size() == 0) {
                     mTextView.setText("No data found.");
                 } else {
-                    mTextView.setText(TextUtils.join("\n", dataStrings));
+                    //mTextView.setText(TextUtils.join("\n", dataStrings));
+                    CustomAdapter customAdapter = new CustomAdapter(MainActivity.this, dataStrings, dataStrings);
+                    mRecyclerView.setAdapter(customAdapter);
                 }
             }
         });
@@ -226,7 +232,11 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         mTextView = (TextView) findViewById(R.id.textView);
-        SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
+        mRecyclerView = (RecyclerView)findViewById(R.id.rv);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+
+        //SharedPreferences settings = getPreferences(Context.MODE_PRIVATE);
         credential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff())
@@ -235,6 +245,7 @@ public class MainActivity extends AppCompatActivity {
                 transport, jsonFactory, credential)
                 .setApplicationName("KDS")
                 .build();
+        //refreshResults();
     }
 
     private boolean isDeviceOnline() {
