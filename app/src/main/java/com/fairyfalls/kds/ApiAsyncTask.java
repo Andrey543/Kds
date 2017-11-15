@@ -54,7 +54,7 @@ public class ApiAsyncTask extends AsyncTask<Void, Void, Void> {
             if (start == null) {
                 start = event.getStart().getDate();
             }
-            DateTime end = event.getEnd().getDateTime();
+            DateTime end = event.getEnd().getDate();
             if (end == null) {
                 end = event.getEnd().getDateTime();
             }
